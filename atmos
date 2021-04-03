@@ -23,7 +23,7 @@ $atmos = \Atmos\CommandLine::init($argv);
 
 // Set the atmos configurations.
 $atmos->setConfig([
-    'directory'         => __DIR__ . '\\console',
+    'directory'         => __DIR__ . '\\commands',
 ]);
 
 // Execute the command line scripts.
