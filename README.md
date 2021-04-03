@@ -22,7 +22,7 @@ $atmos->exec();
 // End and terminate the script.
 $atmos->end();
 ```
-4. List all available commands using "php atmos --help".  
+4. List all available commands using *"php atmos --help"*.  
 
 # Getting Started  
 1. Create a new command file using *"php atmos --make filename"*.
