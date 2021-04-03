@@ -1,0 +1,15 @@
+{
+    "name": "jameslevi/atmos",
+    "description": "Is a simple library for creating command line scripts in PHP.",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Atmos\\": "src/"
+        }
+    }
+}

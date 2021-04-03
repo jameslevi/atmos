@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+/**
+ * ATMOS
+ * ---------------------------------------
+ * Is a simple library for creating command 
+ * line scripts in PHP.
+ * 
+ * @author  James Levi Crisostomo
+ * @version v1.0.0
+ */
+
+// Include composer autoload mechanism.
+if(file_exists(__DIR__ . '/vendor/autoload.php'))
+{
+    require __DIR__ . '/vendor/autoload.php';
+}
+
+// Initiate command line and pass the arguments
+// from the terminal.
+$atmos = \Atmos\CommandLine::init($argv);
+
+// Set the atmos configurations.
+$atmos->setConfig([
+    'directory'         => __DIR__ . '\\console',
+]);
+
+// Execute the command line scripts.
+$atmos->exec();
+
+// End and terminate the script.
+$atmos->end();
