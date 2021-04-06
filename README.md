@@ -26,25 +26,7 @@ $atmos->end();
 
 # Getting Started  
 1. Create a new command file using *"php atmos --make filename"*.
-2. Open the generated file and edit the directives array and description.
-```php
-/**
- * List of directives that will execute this command.
- *
- * @var array
- */
-
-protected $directives = array('test');
-
-/**
- * Description of this command.
- *
- * @var string
- */
-
-protected $description = "Command description...";
-```  
-3. Write command logic inside execute method.
+2. Open the generated PHP command file and write your code inside the execute method.
 ```php
 /**
  * Method to be executed in the command line.
@@ -58,7 +40,7 @@ protected function execute(array $arguments)
 
 }
 ```  
-4. Test the command using *"php atmos name_of_directive"*.
+3. Test the command using *"php atmos name_of_directive"*.
 
 # Console Messages
 1. **Log** - Print a simple message.
