@@ -146,24 +146,36 @@ class CommandLine extends OptionManager
     {
         $that = $this;
 
-        // Register a command that will return current version.
-        $this->register(['-v', '--version'], 'Return the current version of ATMOS CLI.', function($arguments) {
+        $this->register([
+            'id'            => 'version',
+            'description'   => 'Return the current version of ATMOS CLI.',
+            'directives'    => ['-v', '--version'],
+            'native'        => true,
+        ], function($args) use ($that) {
 
-            Console::log("ATMOS CLI \e[33mv" . $this->version);
+            Console::log("current release \e[33mv" . $that->version);
 
         });
 
-        // Register a command that will clear the terminal.
-        $this->register(['-c', '--clear'], 'Clear the current terminal.', function($arguments) {
+        $this->register([
+            'id'            => 'clear',
+            'description'   => 'Clear the terminal screen.',
+            'directives'    => ['-x', '--clear'],
+            'native'        => true,
+        ], function($args) {
 
             print("\033[2J\033[;H");
 
         });
 
-        // Register a command that will list all registered commands.
-        $this->register(['-h', '--help'], 'Return the list of all registered options.', function($arguments) use ($that) {
+        $this->register([
+            'id'            => 'help',
+            'description'   => 'Return list of all built-in options.',
+            'directives'    => ['-h', '--help'],
+            'native'        => true,
+        ], function($args) use ($that) {
 
-            Console::log("ATMOS CLI \e[33mv" . $this->version);
+            Console::log("ATMOS CLI \e[33mv" . $that->version);
             Console::log("Is a simple library for creating command line scripts in PHP.");
             Console::lineBreak();
             Console::warn("Usage:");
@@ -176,12 +188,16 @@ class CommandLine extends OptionManager
 
         });
 
-        // Register a command that will generate new command file.
-        $this->register(['-m', '--make'], 'Create a new command file.', function($arguments) use ($that) {
+        $this->register([
+            'id'            => 'make',
+            'description'   => 'Generate a new PHP command class file.',
+            'directives'    => ['-m', '--make'],
+            'native'        => true,
+        ], function($args) use ($that) {
 
-            if(!empty($arguments))
+            if(!empty($args))
             {
-                $path = $that->config('directory') . '/' . ucfirst($arguments[0]) . '.php';
+                $path = $that->config('directory') . '/' . ucfirst($args[0]) . '.php';
 
                 if(!file_exists($path))
                 {
@@ -194,37 +210,9 @@ class CommandLine extends OptionManager
                     $template .= "use Atmos\CLI;";
                     $template .= PHP_EOL;
                     $template .= PHP_EOL;
-                    $template .= "class " . ucfirst($arguments[0]) . " extends CLI";
+                    $template .= "class " . ucfirst($args[0]) . " extends CLI";
                     $template .= PHP_EOL;
                     $template .= "{";
-                    $template .= PHP_EOL;
-                    $template .= '    /**';
-                    $template .= PHP_EOL;
-                    $template .= '     * List of directives that will execute this command.';
-                    $template .= PHP_EOL;
-                    $template .= '     *';
-                    $template .= PHP_EOL;
-                    $template .= '     * @var array';
-                    $template .= PHP_EOL;
-                    $template .= '     */';
-                    $template .= PHP_EOL;
-                    $template .= PHP_EOL;
-                    $template .= '    protected $directives = array();';
-                    $template .= PHP_EOL;
-                    $template .= PHP_EOL;
-                    $template .= '    /**';
-                    $template .= PHP_EOL;
-                    $template .= '     * Description of this command.';
-                    $template .= PHP_EOL;
-                    $template .= '     *';
-                    $template .= PHP_EOL;
-                    $template .= '     * @var string';
-                    $template .= PHP_EOL;
-                    $template .= '     */';
-                    $template .= PHP_EOL;
-                    $template .= PHP_EOL;
-                    $template .= '    protected $description = "No available description...";';
-                    $template .= PHP_EOL;
                     $template .= PHP_EOL;
                     $template .= '    /**';
                     $template .= PHP_EOL;
@@ -266,17 +254,22 @@ class CommandLine extends OptionManager
             }
         });
 
-        // Register a command that will return configuration value.
-        $this->register(['--config'], 'Return configuration values.', function($arguments) use ($that) {
+        $this->register([
+            'id'            => 'config',
+            'description'   => 'Return configuration properties.',
+            'directives'    => ['-c', '--config'],  
+            'native'        => true,    
+        ], function($args) use ($that) {
 
-            if(!empty($arguments))
+            if(!empty($args))
             {
                 $config = $that->config();
-                $key = $arguments[0];
+                $key = $args[0];
 
                 if(array_key_exists($key, $config))
                 {
-                    Console::info(ucfirst($key) . ": " . $config[$key]);
+                    Console::info(ucfirst($key) . ": ", false);
+                    Console::log($config[$key]);
                 }
                 else
                 {
@@ -349,9 +342,15 @@ class CommandLine extends OptionManager
 
                         $filename   = explode('.', basename($file))[0];
                         $namespace  = "Atmos\Console\\" . $filename;
+                        $keyword = strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^-])([A-Z][a-z])/'], '$1-$2', $filename));
                         $instance   = new $namespace($arguments);
 
-                        $this->register($instance->getDirectives(), $instance->getDescription(), $instance);
+                        $this->register([
+                            'id'                => $keyword,
+                            'description'       => null,
+                            'directives'        => [$keyword],
+                            'native'            => false,
+                        ], $instance);
                     }
                 }
             }

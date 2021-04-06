@@ -200,4 +200,31 @@ class Console
         return $instance;
     }
 
+    /**
+     * Execute an array of commands.
+     * 
+     * @param   array $commands
+     * @return  void
+     */
+
+    public static function call(array $commands)
+    {
+        foreach($commands as $command)
+        {
+            $output = null;
+
+            exec($command, $output);
+
+            foreach($output as $msg)
+            {
+                $msg = trim($msg);
+
+                if(!is_null($msg) && !empty($msg) && $msg != '')
+                {
+                    echo $msg . PHP_EOL;
+                }
+            }
+        }
+    }
+
 }

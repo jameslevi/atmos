@@ -1,10 +1,14 @@
 {
     "name": "jameslevi/atmos",
     "description": "Is a simple library for creating command line scripts in PHP.",
+    "keywords": [
+        "console",
+        "cli"
+    ],
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": ">=5.2.0"
+        "php": ">=5.3.0"
     },
     "autoload": {
         "psr-4": {

@@ -13,22 +13,6 @@ abstract class CLI
     private $arguments;
 
     /**
-     * Store the directive strings.
-     * 
-     * @var array
-     */
-
-    protected $directives = array();
-
-    /**
-     * Store the description of console command.
-     * 
-     * @var string
-     */
-
-    protected $description;
-
-    /**
      * Create a new CLI instance.
      * 
      * @param   array $arguments
@@ -49,28 +33,6 @@ abstract class CLI
     public function call()
     {
         return $this->execute($this->arguments);
-    }
-
-    /**
-     * Return an array of directives.
-     * 
-     * @return  array
-     */
-
-    public function getDirectives()
-    {
-        return $this->directives;
-    }
-
-    /**
-     * Return command description.
-     * 
-     * @return  string
-     */
-
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     /**

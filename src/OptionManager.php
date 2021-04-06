@@ -23,15 +23,19 @@ abstract class OptionManager
     /**
      * Register a new option.
      * 
-     * @param   array $directives
-     * @param   string $description
+     * @param   array $parameters
      * @param   mixed $command
      * @return  $this
      */
 
-    protected function register(array $directives, string $description, $command)
+    protected function register(array $parameters, $command)
     {
-        $this->options[] = new Option($directives, $description, $command);
+        $id                 = $parameters['id'];
+        $directives         = $parameters['directives'] ?? [];
+        $description        = $parameters['description'] ?? null;
+        $native             = $parameters['native'] ?? false;
+ 
+        $this->options[] = new Option($id, $directives, $command, $description, $native);
 
         return $this;
     }
@@ -86,25 +90,29 @@ abstract class OptionManager
         for($i = 0; $i <= (sizeof($this->options) - 1); $i++)
         {
             $option         = $this->options[$i];
-            $directives     = implode(', ', $option->getDirectives());
-            $length         = strlen($directives) + 4;
-            $message        = "    " . $directives;
-            $spaces         = 0;
 
-            if($length < $limit)
+            if($option->isNative())
             {
-                $spaces = $limit - $length;
+                $directives     = implode(', ', $option->getDirectives());
+                $length         = strlen($directives) + 4;
+                $message        = "    " . $directives;
+                $spaces         = 0;
+
+                if($length < $limit)
+                {
+                    $spaces = $limit - $length;
+                }
+
+                for($j = 1; $j <= $spaces; $j++)
+                {
+                    $message .= " ";
+                }
+
+                $message .= "- ";
+
+                Console::success($message, false);
+                Console::log($option->getDescription());
             }
-
-            for($j = 1; $j <= $spaces; $j++)
-            {
-                $message .= " ";
-            }
-
-            $message .= "- ";
-
-            Console::success($message, false);
-            Console::log($option->getDescription());
         }
     }
 
