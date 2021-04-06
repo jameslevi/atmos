@@ -300,6 +300,7 @@ class CommandLine extends OptionManager
                 $directive = strtolower($arguments[0]);
                 
                 array_shift($arguments);
+                error_reporting(0);
 
                 $this->registerDefaultOptions();
                 $this->loadCustomOptions($arguments);
