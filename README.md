@@ -37,7 +37,7 @@ $atmos->end();
 
 protected function execute(array $arguments)
 {
-
+    Console::log("Hello World!");  
 }
 ```  
 3. Test the command using *"php atmos filename"*.
