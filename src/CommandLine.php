@@ -197,55 +197,62 @@ class CommandLine extends OptionManager
 
             if(!empty($args))
             {
-                $path = $that->config('directory') . '/' . ucfirst($args[0]) . '.php';
-
-                if(!file_exists($path))
+                if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $args[0]))
                 {
-                    $template = "<?php";
-                    $template .= PHP_EOL;
-                    $template .= PHP_EOL;
-                    $template .= "namespace Atmos\Console;";
-                    $template .= PHP_EOL;
-                    $template .= PHP_EOL;
-                    $template .= "use Atmos\CLI;";
-                    $template .= PHP_EOL;
-                    $template .= PHP_EOL;
-                    $template .= "class " . ucfirst($args[0]) . " extends CLI";
-                    $template .= PHP_EOL;
-                    $template .= "{";
-                    $template .= PHP_EOL;
-                    $template .= '    /**';
-                    $template .= PHP_EOL;
-                    $template .= '     * Method to be executed in the command line.';
-                    $template .= PHP_EOL;
-                    $template .= '     *';
-                    $template .= PHP_EOL;
-                    $template .= '     * @param  array $arguments';
-                    $template .= PHP_EOL;
-                    $template .= '     * @return void';
-                    $template .= PHP_EOL;
-                    $template .= '     */';
-                    $template .= PHP_EOL;
-                    $template .= PHP_EOL;
-                    $template .= '    protected function execute(array $arguments)';
-                    $template .= PHP_EOL;
-                    $template .= "    {";
-                    $template .= PHP_EOL;
-                    $template .= PHP_EOL;
-                    $template .= "    }";
-                    $template .= PHP_EOL;
-                    $template .= PHP_EOL;
-                    $template .= "}";
+                    $path = $that->config('directory') . '/' . ucfirst($args[0]) . '.php';
 
-                    $file = fopen($path, 'w');
-                    fwrite($file, $template);
-                    fclose($file);
+                    if(!file_exists($path))
+                    {
+                        $template = "<?php";
+                        $template .= PHP_EOL;
+                        $template .= PHP_EOL;
+                        $template .= "namespace Atmos\Console;";
+                        $template .= PHP_EOL;
+                        $template .= PHP_EOL;
+                        $template .= "use Atmos\CLI;";
+                        $template .= PHP_EOL;
+                        $template .= PHP_EOL;
+                        $template .= "class " . ucfirst($args[0]) . " extends CLI";
+                        $template .= PHP_EOL;
+                        $template .= "{";
+                        $template .= PHP_EOL;
+                        $template .= '    /**';
+                        $template .= PHP_EOL;
+                        $template .= '     * Method to be executed in the command line.';
+                        $template .= PHP_EOL;
+                        $template .= '     *';
+                        $template .= PHP_EOL;
+                        $template .= '     * @param  array $arguments';
+                        $template .= PHP_EOL;
+                        $template .= '     * @return void';
+                        $template .= PHP_EOL;
+                        $template .= '     */';
+                        $template .= PHP_EOL;
+                        $template .= PHP_EOL;
+                        $template .= '    protected function execute(array $arguments)';
+                        $template .= PHP_EOL;
+                        $template .= "    {";
+                        $template .= PHP_EOL;
+                        $template .= PHP_EOL;
+                        $template .= "    }";
+                        $template .= PHP_EOL;
+                        $template .= PHP_EOL;
+                        $template .= "}";
 
-                    Console::success("New console file was successfully created.");
+                        $file = fopen($path, 'w');
+                        fwrite($file, $template);
+                        fclose($file);
+
+                        Console::success("New console file was successfully created.");
+                    }
+                    else
+                    {
+                        Console::error("Command file already exists.");
+                    }
                 }
                 else
                 {
-                    Console::error("Command file already exists.");
+                    Console::error("Filename must not contain special characters.");
                 }
             }
             else
