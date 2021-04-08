@@ -209,10 +209,7 @@ class CommandLine extends OptionManager
                         $template .= "namespace Atmos\Console;";
                         $template .= PHP_EOL;
                         $template .= PHP_EOL;
-                        $template .= "use Atmos\CLI;";
-                        $template .= PHP_EOL;
-                        $template .= PHP_EOL;
-                        $template .= "class " . ucfirst($args[0]) . " extends CLI";
+                        $template .= "class " . ucfirst($args[0]) . " extends \Atmos\CLI";
                         $template .= PHP_EOL;
                         $template .= "{";
                         $template .= PHP_EOL;
