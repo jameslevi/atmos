@@ -40,7 +40,7 @@ protected function execute(array $arguments)
 
 }
 ```  
-3. Test the command using *"php atmos name_of_directive"*.
+3. Test the command using *"php atmos filename"*.
 
 # Console Messages
 1. **Log** - Print a simple message.
@@ -62,6 +62,15 @@ Console::info("You scored 30 points!");
 5. **Warning** - Print a warning message.
 ```php
 Console::warn("I told you not to go here!");
+```
+
+# Call Multiple Commands
+Very useful if you want to call multiple commands in just a single command. The order of execution of each command depends on the order of values in array.
+```php
+Console::call([
+    'composer -h',
+    'php atmos -h'
+]);
 ```
 
 # Contribution
