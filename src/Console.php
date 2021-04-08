@@ -203,27 +203,27 @@ class Console
     /**
      * Execute an array of commands.
      * 
-     * @param   array $commands
+     * @param   mixed $commands
      * @return  void
      */
 
-    public static function call(array $commands)
+    public static function call($commands)
     {
+        if(is_string($commands))
+        {
+            $commands = [$commands];
+        }
+
+        $output = array();
+
         foreach($commands as $command)
         {
-            $output = null;
-
             exec($command, $output);
+        }
 
-            foreach($output as $msg)
-            {
-                $msg = trim($msg);
-
-                if(!is_null($msg) && !empty($msg) && $msg != '')
-                {
-                    echo $msg . PHP_EOL;
-                }
-            }
+        foreach($output as $message)
+        {
+            echo $message . PHP_EOL;
         }
     }
 
