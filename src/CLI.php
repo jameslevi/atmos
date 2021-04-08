@@ -27,12 +27,12 @@ abstract class CLI
     /**
      * Call the execute method.
      * 
-     * @return  mixed
+     * @return  void
      */
 
     public function call()
     {
-        return $this->execute($this->arguments);
+        $this->execute($this->arguments);
     }
 
     /**
