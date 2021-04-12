@@ -81,5 +81,5 @@ php atmos --serve 8080
 # Contribution
 For issues, concerns and suggestions, you can email James Crisostomo via nerdlabenterprise@gmail.com.
 
-# LICENSE  
+# License  
 This package is an open-sourced software licensed under [MIT](https://opensource.org/licenses/MIT) License.

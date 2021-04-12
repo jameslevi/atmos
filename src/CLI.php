@@ -13,6 +13,14 @@ abstract class CLI
     private $arguments;
 
     /**
+     * Something that describes this command.
+     * 
+     * @var string
+     */
+
+    protected $description;
+
+    /**
      * Create a new CLI instance.
      * 
      * @param   array $arguments
@@ -22,6 +30,17 @@ abstract class CLI
     public function __construct(array $arguments)
     {
         $this->arguments    = $arguments;
+    }
+
+    /**
+     * Return the description of the command.
+     * 
+     * @return  string
+     */
+
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**

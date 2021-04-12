@@ -154,7 +154,6 @@ class CommandLine extends OptionManager
             'id'            => 'version',
             'description'   => 'Return the current version of ATMOS CLI.',
             'directives'    => ['-v', '--version'],
-            'native'        => true,
         ], function($args) use ($that) {
 
             Console::log("current release \e[33mv" . $that->version);
@@ -165,7 +164,6 @@ class CommandLine extends OptionManager
             'id'            => 'clear',
             'description'   => 'Clear the terminal screen.',
             'directives'    => ['-x', '--clear'],
-            'native'        => true,
         ], function($args) {
 
             print("\033[2J\033[;H");
@@ -176,7 +174,6 @@ class CommandLine extends OptionManager
             'id'            => 'help',
             'description'   => 'Return list of all built-in options.',
             'directives'    => ['-h', '--help'],
-            'native'        => true,
         ], function($args) use ($that) {
 
             Console::log("ATMOS CLI \e[33mv" . $that->version);
@@ -196,7 +193,6 @@ class CommandLine extends OptionManager
             'id'            => 'make',
             'description'   => 'Generate a new PHP command class file.',
             'directives'    => ['-m', '--make'],
-            'native'        => true,
         ], function($args) use ($that) {
 
             if(!empty($args))
@@ -212,9 +208,11 @@ class CommandLine extends OptionManager
                         $template->extends("\Atmos\CLI");
                         $template->setIndention(1);
 
+                        $template->addComment(Comment::makeStringVar("Something that will describe your command."));
+                        $template->lineBreak();
+                        $template->addProtectedVariable("description", "No available description...");
                         $template->lineBreak();
                         $template->addComment(Comment::makeMethod("Method to be executed in the command line.")->addArrayParam("arguments"));
-
                         $template->lineBreak();
                         $template->addMethod(Method::makeProtected("execute")->addArrayParam("arguments"));
                         $template->lineBreak();
@@ -243,7 +241,6 @@ class CommandLine extends OptionManager
             'id'            => 'serve',
             'description'   => 'Start the built-in PHP server.',
             'directives'    => ['-s', '--serve'],
-            'native'        => true,
         ], function($args) {
         $port = 8080;
 
@@ -260,7 +257,6 @@ class CommandLine extends OptionManager
             'id'            => 'config',
             'description'   => 'Return configuration properties.',
             'directives'    => ['-c', '--config'],  
-            'native'        => true,    
         ], function($args) use ($that) {
 
             if(!empty($args))
@@ -350,9 +346,8 @@ class CommandLine extends OptionManager
 
                         $this->register([
                             'id'                => $keyword,
-                            'description'       => null,
+                            'description'       => $instance->getDescription(),
                             'directives'        => [$keyword],
-                            'native'            => false,
                         ], $instance);
                     }
                 }

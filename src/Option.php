@@ -39,31 +39,21 @@ class Option
     private $id;
 
     /**
-     * Declare if native or custom command.
-     * 
-     * @var bool
-     */
-
-    private $native;
-
-    /**
      * Construct a new option class.
      * 
      * @param   string $id
      * @param   array $directives
      * @param   mixed $command
      * @param   string $description
-     * @param   bool $native
      * @return  void
      */
 
-    public function __construct(string $id, array $directives, $command, string $description = null, bool $native = false)
+    public function __construct(string $id, array $directives, $command, string $description = null)
     {
         $this->id               = $id;
         $this->directives       = $directives;
         $this->command          = $command;
         $this->description      = $description;
-        $this->native           = $native;
     }
 
     /**
@@ -75,17 +65,6 @@ class Option
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Return true if option is a native command.
-     * 
-     * @return  bool
-     */
-
-    public function isNative()
-    {
-        return $this->native;
     }
 
     /**

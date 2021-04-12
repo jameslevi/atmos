@@ -33,9 +33,8 @@ abstract class OptionManager
         $id                 = $parameters['id'];
         $directives         = $parameters['directives'] ?? [];
         $description        = $parameters['description'] ?? null;
-        $native             = $parameters['native'] ?? false;
  
-        $this->options[] = new Option($id, $directives, $command, $description, $native);
+        $this->options[] = new Option($id, $directives, $command, $description);
 
         return $this;
     }
@@ -91,28 +90,25 @@ abstract class OptionManager
         {
             $option         = $this->options[$i];
 
-            if($option->isNative())
+            $directives     = implode(', ', $option->getDirectives());
+            $length         = strlen($directives) + 4;
+            $message        = "    " . $directives;
+            $spaces         = 0;
+
+            if($length < $limit)
             {
-                $directives     = implode(', ', $option->getDirectives());
-                $length         = strlen($directives) + 4;
-                $message        = "    " . $directives;
-                $spaces         = 0;
-
-                if($length < $limit)
-                {
-                    $spaces = $limit - $length;
-                }
-
-                for($j = 1; $j <= $spaces; $j++)
-                {
-                    $message .= " ";
-                }
-
-                $message .= "- ";
-
-                Console::success($message, false);
-                Console::log($option->getDescription());
+                $spaces = $limit - $length;
             }
+
+            for($j = 1; $j <= $spaces; $j++)
+            {
+                $message .= " ";
+            }
+
+            $message .= "- ";
+
+            Console::success($message, false);
+            Console::log($option->getDescription());
         }
     }
 
