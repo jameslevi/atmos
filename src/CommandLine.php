@@ -2,6 +2,10 @@
 
 namespace Atmos;
 
+use Stencil\Comment;
+use Stencil\Method;
+use Stencil\Stencil;
+
 class CommandLine extends OptionManager
 {
     /**
@@ -203,42 +207,19 @@ class CommandLine extends OptionManager
 
                     if(!file_exists($path))
                     {
-                        $template = "<?php";
-                        $template .= PHP_EOL;
-                        $template .= PHP_EOL;
-                        $template .= "namespace Atmos\Console;";
-                        $template .= PHP_EOL;
-                        $template .= PHP_EOL;
-                        $template .= "class " . ucfirst($args[0]) . " extends \Atmos\CLI";
-                        $template .= PHP_EOL;
-                        $template .= "{";
-                        $template .= PHP_EOL;
-                        $template .= '    /**';
-                        $template .= PHP_EOL;
-                        $template .= '     * Method to be executed in the command line.';
-                        $template .= PHP_EOL;
-                        $template .= '     *';
-                        $template .= PHP_EOL;
-                        $template .= '     * @param  array $arguments';
-                        $template .= PHP_EOL;
-                        $template .= '     * @return void';
-                        $template .= PHP_EOL;
-                        $template .= '     */';
-                        $template .= PHP_EOL;
-                        $template .= PHP_EOL;
-                        $template .= '    protected function execute(array $arguments)';
-                        $template .= PHP_EOL;
-                        $template .= "    {";
-                        $template .= PHP_EOL;
-                        $template .= PHP_EOL;
-                        $template .= "    }";
-                        $template .= PHP_EOL;
-                        $template .= PHP_EOL;
-                        $template .= "}";
+                        $template = new Stencil(ucfirst($args[0]));
+                        $template->setNamespace("Atmos\Console");
+                        $template->extends("\Atmos\CLI");
+                        $template->setIndention(1);
 
-                        $file = fopen($path, 'w');
-                        fwrite($file, $template);
-                        fclose($file);
+                        $template->lineBreak();
+                        $template->addComment(Comment::makeMethod("Method to be executed in the command line.")->addArrayParam("arguments"));
+
+                        $template->lineBreak();
+                        $template->addMethod(Method::makeProtected("execute")->addArrayParam("arguments"));
+                        $template->lineBreak();
+
+                        $template->generate($that->config('directory') . '/');
 
                         Console::success("New console file was successfully created.");
                     }
