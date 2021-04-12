@@ -9,11 +9,11 @@ Is a simple library for creating command line scripts in PHP.
 2. Copy the atmos file from vendor/jameslevi/atmos to root directory.
 3. Open the atmos file and set the directory where to save command files.
 ```php
-$atmos = \Atmos\CommandLine::init($argv);
+$atmos = \Atmos\CommandLine::init($_SERVER['argv']);
 
 // Set the atmos configurations.
 $atmos->setConfig([
-    'directory'         => __DIR__ . '\\folder',
+    'directory'         => __DIR__ . '\\commands',
 ]);
 
 // Execute the command line scripts.
