@@ -240,6 +240,23 @@ class CommandLine extends OptionManager
         });
 
         $this->register([
+            'id'            => 'serve',
+            'description'   => 'Start the built-in PHP server.',
+            'directives'    => ['-s', '--serve'],
+            'native'        => true,
+        ], function($args) {
+        $port = 8080;
+
+            if(!empty($args))
+            {
+                $port = $args[0];
+            }
+
+            Console::success("PHP built-in has started at port " . $port . ".");
+            exec("php -S localhost:" . $port);
+        });
+
+        $this->register([
             'id'            => 'config',
             'description'   => 'Return configuration properties.',
             'directives'    => ['-c', '--config'],  
