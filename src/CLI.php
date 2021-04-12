@@ -61,6 +61,6 @@ abstract class CLI
      * @return  mixed
      */
 
-    protected abstract function execute(array $arguments);
+    abstract protected function execute(array $arguments);
 
 }

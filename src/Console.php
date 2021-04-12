@@ -218,12 +218,27 @@ class Console
 
         foreach($commands as $command)
         {
-            exec($command, $output);
+            $feedback = null;
+
+            exec($command, $feedback);
+
+            $output[] = array(
+                'command'           => $command,
+                'feedback'          => $feedback,
+            );
         }
 
-        foreach($output as $message)
+        foreach($output as $data)
         {
-            echo $message . PHP_EOL;
+            $command = $data['command'];
+            $messages = $data['feedback'];
+
+            Console::info($command);
+
+            foreach($messages as $message)
+            {
+                echo $message . PHP_EOL;
+            }
         }
     }
 
