@@ -1,10 +1,15 @@
-# ATMOS CLI
+# Atmos
 
 ![](https://img.shields.io/badge/packagist-v1.0.1-informational?style=flat&logo=<LOGO_NAME>&logoColor=white&color=2bbc8a) ![](https://img.shields.io/badge/license-MIT-informational?style=flat&logo=<LOGO_NAME>&logoColor=white&color=2bbc8a)
 
 Is a simple library for creating command line scripts in PHP.
 
-# Installation
+## Features ##  
+1. Create good looking PHP command line scripts.
+2. Built-in commands to make web development much easier.
+3. Easy integration with PHP frameworks.
+
+## Installation ##  
 1. You can install via composer using *"composer require jameslevi/atmos"*.
 2. Copy the atmos file from vendor/jameslevi/atmos to root directory.
 3. Open the atmos file and set the directory where to save command files.
@@ -24,7 +29,7 @@ $atmos->end();
 ```
 4. List all available commands using *"php atmos --help"*.  
 
-# Getting Started  
+## Getting Started  ##  
 1. Create a new command file using *"php atmos --make filename"*.
 2. Open the generated PHP command file and write your code inside the execute method.
 ```php
@@ -42,7 +47,7 @@ protected function execute(array $arguments)
 ```  
 3. Test the command using *"php atmos filename"*.
 
-# Console Messages
+## Console Messages ##
 1. **Log** - Print a simple message.
 ```php
 Console::log("Hello World!");
@@ -64,7 +69,7 @@ Console::info("You scored 30 points!");
 Console::warn("I told you not to go here!");
 ```
 
-# Call Multiple Commands
+## Call Multiple Commands ##  
 Very useful if you want to call multiple commands in just a single command. The order of execution of each command depends on the order of values in array.
 ```php
 Console::call([
@@ -72,14 +77,14 @@ Console::call([
     'php atmos -h'
 ]);
 ```
-# Start Built-in PHP Server
+## Start Built-in PHP Server ##
 You can now start PHP server using atmos commands. This command will start the server at port 8080.
 ```
 php atmos --serve 8080
 ```
 
-# Contribution
+## Contribution ##  
 For issues, concerns and suggestions, you can email James Crisostomo via nerdlabenterprise@gmail.com.
 
-# License  
+## License ##
 This package is an open-sourced software licensed under [MIT](https://opensource.org/licenses/MIT) License.
