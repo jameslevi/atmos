@@ -72,6 +72,11 @@ Console::call([
     'php atmos -h'
 ]);
 ```
+# Start Built-in PHP Server
+You can now start PHP server using atmos commands. This command will start the server at port 8080.
+```
+php atmos --serve 8080
+```
 
 # Contribution
 For issues, concerns and suggestions, you can email James Crisostomo via nerdlabenterprise@gmail.com.
