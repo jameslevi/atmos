@@ -12,21 +12,7 @@ Is a simple library for creating command line scripts in PHP.
 ## Installation ##  
 1. You can install via composer using *"composer require jameslevi/atmos"*.
 2. Copy the atmos file from vendor/jameslevi/atmos to root directory.
-3. Open the atmos file and set the directory where to save command files.
-```php
-$atmos = \Atmos\CommandLine::init($_SERVER['argv']);
-
-// Set the atmos configurations.
-$atmos->setConfig([
-    'directory'         => __DIR__ . '\\commands',
-]);
-
-// Execute the command line scripts.
-$atmos->exec();
-
-// End and terminate the script.
-$atmos->end();
-```
+3. Create a new folder named commands in your root directory.
 4. List all available commands using *"php atmos --help"*.  
 
 ## Getting Started  ##  
