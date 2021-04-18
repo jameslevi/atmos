@@ -20,11 +20,9 @@ if(file_exists(__DIR__ . '/vendor/autoload.php'))
 
 // Initiate command line and pass the arguments
 // from the terminal.
-$atmos = \Atmos\CommandLine::init($_SERVER['argv']);
-
-// Set the atmos configurations.
-$atmos->setConfig([
+$atmos = \Atmos\CommandLine::init($_SERVER['argv'], [
     'directory'         => __DIR__ . '\\commands',
+    'namespace'         => 'Atmos\\Console\\',
 ]);
 
 // Execute the command line scripts.

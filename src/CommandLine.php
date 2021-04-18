@@ -70,10 +70,11 @@ class CommandLine extends OptionManager
      * Create a new command line instance.
      * 
      * @param   array $argv
+     * @param   array $config
      * @return  void
      */
 
-    private function __construct(array $argv, array $config = null)
+    private function __construct(array $argv, array $config)
     {
         array_shift($argv);
     
@@ -90,20 +91,6 @@ class CommandLine extends OptionManager
     public function version()
     {
         return $this->version;
-    }
-
-    /**
-     * Set the configuration data.
-     * 
-     * @param   array $config
-     * @return  \Atmos\CommandLine
-     */
-
-    public function setConfig(array $config)
-    {
-        $this->config = $config;
-
-        return $this;
     }
 
     /**
@@ -199,11 +186,12 @@ class CommandLine extends OptionManager
             {
                 if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $args[0]))
                 {
-                    $path = $that->config('directory') . '/' . ucfirst($args[0]) . '.php';
+                    $file = ucfirst($args[0]);
+                    $path = $that->config('directory') . '/' . $file . '.php';
 
                     if(!file_exists($path))
                     {
-                        $template = new Stencil(ucfirst($args[0]));
+                        $template = new Stencil($file);
                         $template->setNamespace("Atmos\Console");
                         $template->extends("\Atmos\CLI");
                         $template->setIndention(1);
@@ -251,33 +239,6 @@ class CommandLine extends OptionManager
 
             Console::success("PHP built-in has started at port " . $port . ".");
             exec("php -S localhost:" . $port);
-        });
-
-        $this->register([
-            'id'            => 'config',
-            'description'   => 'Return configuration properties.',
-            'directives'    => ['-c', '--config'],  
-        ], function($args) use ($that) {
-
-            if(!empty($args))
-            {
-                $config = $that->config();
-                $key = $args[0];
-
-                if(array_key_exists($key, $config))
-                {
-                    Console::info(ucfirst($key) . ": ", false);
-                    Console::log($config[$key]);
-                }
-                else
-                {
-                    Console::error("Undefined configuration key.");
-                }
-            }
-            else
-            {
-                Console::error("Missing configuration key.");
-            }
         });
     }
 
@@ -327,7 +288,7 @@ class CommandLine extends OptionManager
     {
         $path = $this->config('directory');
 
-        if(file_exists($path))
+        if(file_exists($path) && is_readable($path))
         {
             $php = array_unique(glob($path . "/*.php"));
 
@@ -335,21 +296,16 @@ class CommandLine extends OptionManager
             {
                 foreach($php as $file)
                 {
-                    if(file_exists($file) && is_readable($file))
-                    {
-                        require $file;
-
-                        $filename   = explode('.', basename($file))[0];
-                        $namespace  = "Atmos\Console\\" . $filename;
-                        $keyword = strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^-])([A-Z][a-z])/'], '$1-$2', $filename));
-                        $instance   = new $namespace($arguments);
-
-                        $this->register([
-                            'id'                => $keyword,
-                            'description'       => $instance->getDescription(),
-                            'directives'        => [$keyword],
-                        ], $instance);
-                    }
+                    $filename   = explode('.', basename($file))[0];
+                    $namespace  = $this->config('namespace') . $filename;
+                    $keyword = strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^-])([A-Z][a-z])/'], '$1-$2', $filename));
+                    $instance   = new $namespace($arguments);
+                        
+                    $this->register([
+                        'id'                => $keyword,
+                        'description'       => $instance->getDescription(),
+                        'directives'        => [$keyword],
+                    ], $instance);
                 }
             }
         }
@@ -392,14 +348,15 @@ class CommandLine extends OptionManager
      * arguments from the user terminal.
      * 
      * @param   array $argv
+     * @param   array $config
      * @return  \Atmos\CommandLine
      */
 
-    public static function init(array $argv)
+    public static function init(array $argv, array $config)
     {
         if(is_null(static::$instance))
         {
-            static::$instance = new self($argv);
+            static::$instance = new self($argv, $config);
         }
 
         return static::$instance;
