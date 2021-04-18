@@ -14,7 +14,7 @@ class CommandLine extends OptionManager
      * @var string
      */
 
-    private $version = '1.0.1';
+    private $version = '1.0.2';
 
     /**
      * Store the command line instance here.
