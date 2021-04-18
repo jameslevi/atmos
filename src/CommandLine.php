@@ -296,6 +296,8 @@ class CommandLine extends OptionManager
             {
                 foreach($php as $file)
                 {
+                    require $file;
+
                     $filename   = explode('.', basename($file))[0];
                     $namespace  = $this->config('namespace') . $filename;
                     $keyword = strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^-])([A-Z][a-z])/'], '$1-$2', $filename));
