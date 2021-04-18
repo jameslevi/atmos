@@ -7,7 +7,7 @@ Is a simple library for creating command line scripts in PHP.
 ## Features ##  
 1. Create good looking PHP command line scripts.
 2. Built-in commands to make web development much easier.
-3. Easy integration with PHP frameworks.
+3. Easy integration with any PHP frameworks.
 
 ## Installation ##  
 1. You can install via composer using *"composer require jameslevi/atmos"*.
