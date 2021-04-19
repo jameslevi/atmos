@@ -301,15 +301,22 @@ class CommandLine extends OptionManager
                 {
                     require $file;
 
-                    $filename   = explode('.', basename($file))[0];
-                    $namespace  = $this->config('namespace') . $filename;
-                    $keyword = strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^-])([A-Z][a-z])/'], '$1-$2', $filename));
-                    $instance   = new $namespace($arguments);
+                    $filename       = explode('.', basename($file))[0];
+                    $namespace      = $this->config('namespace') . $filename;
+                    $keyword        = strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^-])([A-Z][a-z])/'], '$1-$2', $filename));
+                    $instance       = new $namespace($arguments);
+                    $alias          = $instance->getAlias();
+                    $aliases        = [$keyword];
+
+                    if(!is_null($alias))
+                    {
+                        $aliases[] = $alias;
+                    }
                         
                     $this->register([
                         'id'                => $keyword,
                         'description'       => $instance->getDescription(),
-                        'directives'        => [$keyword],
+                        'directives'        => $aliases,
                     ], $instance);
                 }
             }

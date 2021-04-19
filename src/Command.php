@@ -13,6 +13,14 @@ abstract class Command
     private $arguments;
 
     /**
+     * Other keyword for calling this command.
+     * 
+     * @var string
+     */
+
+    protected $alias;
+
+    /**
      * Something that describes this command.
      * 
      * @var string
@@ -41,6 +49,17 @@ abstract class Command
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Return command alias.
+     * 
+     * @return  string
+     */
+
+    public function getAlias()
+    {
+        return $this->alias;
     }
 
     /**
