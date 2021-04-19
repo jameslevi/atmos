@@ -116,7 +116,7 @@ class Option
         {
             $command($arguments);
         }
-        else if($command instanceof CLI)
+        else if($command instanceof Command)
         {
             $command->call();
         }

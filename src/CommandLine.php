@@ -193,10 +193,11 @@ class CommandLine extends OptionManager
                     {
                         $template = new Stencil($file);
                         $template->setNamespace("Atmos\Console");
-                        $template->extends("\Atmos\CLI");
+                        $template->use("Atmos\Command");
+                        $template->extends("Command");
                         $template->setIndention(1);
 
-                        $template->addComment(Comment::makeStringVar("Something that will describe your command."));
+                        $template->addComment(Comment::makeStringVar("Something that will describe your command script."));
                         $template->lineBreak();
                         $template->addProtectedVariable("description", "No available description...");
                         $template->lineBreak();

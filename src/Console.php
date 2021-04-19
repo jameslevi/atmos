@@ -201,7 +201,7 @@ class Console
     }
 
     /**
-     * Execute an array of commands.
+     * Execute one or more commands.
      * 
      * @param   mixed $commands
      * @return  void
@@ -228,16 +228,27 @@ class Console
             );
         }
 
-        foreach($output as $data)
+        for($i = 0; $i <= sizeof($output) - 1; $i++)
         {
-            $command = $data['command'];
-            $messages = $data['feedback'];
+            $data       = $output[$i];
+            $command    = $data['command'];
+            $messages   = $data['feedback'];
 
-            Console::info($command);
+            Console::info("> " . $command);
 
-            foreach($messages as $message)
+            for($j = 0; $j <= sizeof($messages) - 1; $j++)
             {
-                echo $message . PHP_EOL;
+                echo $messages[$j];
+
+                if($j != (sizeof($messages) - 1))
+                {
+                    echo PHP_EOL;
+                }
+            }
+
+            if($i != (sizeof($output) - 1))
+            {
+                echo PHP_EOL;
             }
         }
     }
