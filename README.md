@@ -10,13 +10,18 @@ Is a simple library for creating command line scripts in PHP.
 3. Easy integration with any PHP frameworks.
 
 ## Installation ##  
-1. You can install via composer using *"composer require jameslevi/atmos"*.
+1. You can install via composer.
+```
+composer require jameslevi/atmos
+```
 2. Copy the atmos file from vendor/jameslevi/atmos to root directory.
-3. Create a new folder named commands in your root directory.
-4. List all available commands using *"php atmos --help"*.  
+3. Create a new folder named commands in your root directory.  
 
 ## Getting Started  ##  
-1. Create a new command file using *"php atmos --make filename"*.
+1. Generate a new command file.
+```
+php atmos --make Test
+```
 2. Open the generated PHP command file and write your code inside the execute method.
 ```php
 /**
@@ -31,7 +36,10 @@ protected function execute(array $arguments)
     Console::log("Hello World!");  
 }
 ```  
-3. Test the command using *"php atmos filename"*.
+3. Test the command.
+```
+php atmos test
+```
 
 ## Console Messages ##
 1. **Log** - Print a simple message.
