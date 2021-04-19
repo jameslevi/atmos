@@ -22,7 +22,7 @@ composer require jameslevi/atmos
 ```
 php atmos --make Test
 ```
-2. Open the generated PHP command file and write your code inside the execute method.
+2. Open the generated PHP command file and write your code inside the main method.
 ```php
 /**
  * Method to be executed in the command line.
@@ -31,7 +31,7 @@ php atmos --make Test
  * @return void
  */
 
-protected function execute(array $arguments)
+protected function main(array $arguments)
 {
     Console::log("Hello World!");  
 }
@@ -39,6 +39,44 @@ protected function execute(array $arguments)
 3. Test the command.
 ```
 php atmos test
+```
+## Call Specific Methods ##  
+1. Add new protected method in your command file. For this example let's say "generate".
+```php
+/**
+ * This method will generate new file.
+ *
+ * @param  array $arguments
+ * @return void
+ */
+
+protected function generate(array $arguments)
+{
+    Console::success("File is generated.");  
+}
+```
+2. Call this method using this command.
+```
+php atmos test:generate
+```
+## Arguments ##
+1. You can use parameters supplied from the command line.
+```php
+/**
+ * This method will generate new file.
+ *
+ * @param  array $arguments
+ * @return void
+ */
+
+protected function generate(array $arguments)
+{
+    Console::success($arguments[0] . " file is generated.");  
+}
+```
+2. You can call this method using this command.
+```php
+php atmos test:generate newfile.php
 ```
 
 ## Console Messages ##
