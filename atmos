@@ -18,8 +18,7 @@ if(file_exists(__DIR__ . '/vendor/autoload.php'))
     require __DIR__ . '/vendor/autoload.php';
 }
 
-// Initiate command line and pass the arguments
-// from the terminal.
+// Initiate command line and pass the arguments from the terminal.
 $atmos = \Atmos\CommandLine::init($_SERVER['argv'], [
     'directory'         => __DIR__ . '\\commands',
     'namespace'         => 'Atmos\\Console\\',

@@ -197,13 +197,13 @@ class CommandLine extends OptionManager
                         $template->extends("Command");
                         $template->setIndention(1);
 
-                        $template->addComment(Comment::makeStringVar("Something that will describe your command script."));
+                        $template->addComment(Comment::makeStringVar("Something that will describe your command class."));
                         $template->lineBreak();
                         $template->addProtectedVariable("description", "No available description...");
                         $template->lineBreak();
-                        $template->addComment(Comment::makeMethod("Method to be executed in the command line.")->addArrayParam("arguments"));
+                        $template->addComment(Comment::makeMethod("Default method to call if nothing indicated.")->addArrayParam("arguments"));
                         $template->lineBreak();
-                        $template->addMethod(Method::makeProtected("execute")->addArrayParam("arguments"));
+                        $template->addMethod(Method::makeProtected("main")->addArrayParam("arguments"));
                         $template->lineBreak();
 
                         $template->generate($that->config('directory') . '/');
@@ -257,7 +257,9 @@ class CommandLine extends OptionManager
 
             if(!empty($arguments))
             {
-                $directive = strtolower($arguments[0]);
+                $explode         = explode(":", strtolower($arguments[0]));
+                $directive       = $explode[0];
+                $method          = $explode[1] ?? null;
                 
                 array_shift($arguments);
                 error_reporting(0);
@@ -267,7 +269,7 @@ class CommandLine extends OptionManager
 
                 if($this->matchArguments($directive))
                 {
-                    $this->getOption()->execute($arguments);
+                    $this->getOption()->execute($arguments, $method);
                     $this->terminate();
                 }
             }

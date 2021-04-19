@@ -44,14 +44,29 @@ abstract class Command
     }
 
     /**
-     * Call the execute method.
+     * Call the main method.
      * 
+     * @param   string $method
      * @return  void
      */
 
-    public function call()
+    public function call(string $method = null)
     {
-        $this->execute($this->arguments);
+        if(!is_null($method))
+        {
+            if(method_exists($this, $method))
+            {
+                $this->{$method}($this->arguments);
+            }
+            else
+            {
+                Console::error("Unknown atmos command.");
+            }
+        }
+        else
+        {
+            $this->main($this->arguments);
+        }
     }
 
     /**
@@ -61,6 +76,6 @@ abstract class Command
      * @return  mixed
      */
 
-    abstract protected function execute(array $arguments);
+    abstract protected function main(array $arguments);
 
 }

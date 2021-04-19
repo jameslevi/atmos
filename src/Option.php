@@ -105,10 +105,11 @@ class Option
      * Execute the command from this option.
      * 
      * @param   array $arguments
+     * @param   string $method
      * @return  void
      */
 
-    public function execute(array $arguments)
+    public function execute(array $arguments, string $method = null)
     {
         $command = $this->command;
 
@@ -118,7 +119,7 @@ class Option
         }
         else if($command instanceof Command)
         {
-            $command->call();
+            $command->call($method);
         }
 
         return $this;
