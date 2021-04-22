@@ -29,7 +29,7 @@ abstract class Command
     protected $description = "No available description...";
 
     /**
-     * Create a new CLI instance.
+     * Create a new command class instance.
      * 
      * @param   array $arguments
      * @return  void
@@ -37,7 +37,18 @@ abstract class Command
 
     public function __construct(array $arguments)
     {
-        $this->arguments    = $arguments;
+        $this->arguments = $arguments;
+    }
+
+    /**
+     * Return argument array.
+     * 
+     * @return  array
+     */
+
+    public function getArguments()
+    {
+        return $this->arguments;
     }
 
     /**
@@ -71,20 +82,26 @@ abstract class Command
 
     public function call(string $method = null)
     {
+        $args = $this->arguments;
+        $this->onBeforeExecute($args);
+
         if(!is_null($method))
         {
             if(method_exists($this, $method))
             {
-                $this->{$method}($this->arguments);
+                $this->{$method}($args);
+                $this->onAfterExecute($args);
             }
             else
             {
+                $this->onError($args);
                 Console::error("Unknown atmos command.");
             }
         }
         else
         {
-            $this->main($this->arguments);
+            $this->main($args);
+            $this->onAfterExecute($args);
         }
     }
 
@@ -92,9 +109,36 @@ abstract class Command
      * Override from the child class.
      * 
      * @param   array $arguments
-     * @return  mixed
+     * @return  void
      */
 
     abstract protected function main(array $arguments);
+
+    /**
+     * Method called before command execution.
+     * 
+     * @param   array $arguments
+     * @return  void
+     */
+
+    protected function onBeforeExecute(array $arguments) {}
+
+    /**
+     * Method called after command execution.
+     * 
+     * @param   array $arguments
+     * @return  void
+     */
+
+    protected function onAfterExecute(array $arguments) {}
+
+    /**
+     * Method called when error occurred.
+     * 
+     * @param   array $arguments
+     * @return  void
+     */
+
+    protected function onError(array $arguments) {}
 
 }
