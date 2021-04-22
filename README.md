@@ -78,6 +78,15 @@ protected function generate(array $arguments)
 ```php
 php atmos test:generate newfile.php
 ```
+## Alias ##
+You can set an alias for your command by setting a protected variable named *"alias"* in the command class.
+```php
+protected $alias = "alternative";
+```
+The command below will execute generate method.
+```
+php atmos alernative:generate
+```
 
 ## Console Messages ##
 1. **Log** - Print a simple message.
