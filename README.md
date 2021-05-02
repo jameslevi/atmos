@@ -1,15 +1,15 @@
 # Atmos
 
-![](https://img.shields.io/badge/packagist-v1.0.3-informational?style=flat&logo=<LOGO_NAME>&logoColor=white&color=2bbc8a) ![](https://img.shields.io/badge/license-MIT-informational?style=flat&logo=<LOGO_NAME>&logoColor=white&color=2bbc8a)
+![](https://img.shields.io/badge/packagist-v1.0.4-informational?style=flat&logo=<LOGO_NAME>&logoColor=white&color=2bbc8a) ![](https://img.shields.io/badge/license-MIT-informational?style=flat&logo=<LOGO_NAME>&logoColor=white&color=2bbc8a)
 
 Is a simple library for creating command line scripts in PHP.
 
-## Features ##  
+## Features
 1. Create good looking PHP command line scripts.
 2. Built-in commands to make web development much easier.
 3. Easy integration with any PHP frameworks.
 
-## Installation ##  
+## Installation
 1. You can install via composer.
 ```
 composer require jameslevi/atmos
@@ -17,7 +17,7 @@ composer require jameslevi/atmos
 2. Copy the atmos file from vendor/jameslevi/atmos to root directory.
 3. Create a new folder named commands in your root directory.  
 
-## Getting Started  ##  
+## Getting Started
 1. Generate a new command file.
 ```
 php atmos --make Test
@@ -30,7 +30,6 @@ php atmos --make Test
  * @param  array $arguments
  * @return void
  */
-
 protected function main(array $arguments)
 {
     Console::log("Hello World!");  
@@ -40,7 +39,7 @@ protected function main(array $arguments)
 ```
 php atmos test
 ```
-## Call Specific Methods ##  
+## Call Specific Methods
 1. Add new protected method in your command file. For this example let's say "generate".
 ```php
 /**
@@ -49,7 +48,6 @@ php atmos test
  * @param  array $arguments
  * @return void
  */
-
 protected function generate(array $arguments)
 {
     Console::success("File is generated.");  
@@ -59,7 +57,7 @@ protected function generate(array $arguments)
 ```
 php atmos test:generate
 ```
-## Arguments ##
+## Arguments
 1. You can use parameters supplied from the command line.
 ```php
 /**
@@ -68,7 +66,6 @@ php atmos test:generate
  * @param  array $arguments
  * @return void
  */
-
 protected function generate(array $arguments)
 {
     Console::success($arguments[0] . " file is generated.");  
@@ -78,7 +75,7 @@ protected function generate(array $arguments)
 ```php
 php atmos test:generate newfile.php
 ```
-## Alias ##
+## Alias
 You can set an alias for your command by setting a protected variable named *"alias"* in the command class.
 ```php
 protected $alias = "alternative";
@@ -88,7 +85,7 @@ The command below will execute generate method.
 php atmos alernative:generate
 ```
 
-## Console Messages ##
+## Console Messages
 1. **Log** - Print a simple message.
 ```php
 Console::log("Hello World!");
@@ -110,7 +107,7 @@ Console::info("You scored 30 points!");
 Console::warn("I told you not to go here!");
 ```
 
-## Call Multiple Commands ##  
+## Call Multiple Commands
 Very useful if you want to call multiple commands in just a single command. The order of execution of each command depends on the order of values in array.
 ```php
 Console::call([
@@ -118,14 +115,14 @@ Console::call([
     'php atmos -h'
 ]);
 ```
-## Start Built-in PHP Server ##
+## Start Built-in PHP Server
 You can now start PHP server using atmos commands. This command will start the server at port 8080.
 ```
 php atmos --serve 8080
 ```
 
-## Contribution ##  
+## Contribution
 For issues, concerns and suggestions, you can email James Crisostomo via nerdlabenterprise@gmail.com.
 
-## License ##
+## License
 This package is an open-sourced software licensed under [MIT](https://opensource.org/licenses/MIT) License.
