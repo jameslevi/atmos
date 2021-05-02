@@ -5,6 +5,7 @@ namespace Graphite\Component\Atmos;
 use Graphite\Component\Stencil\Comment;
 use Graphite\Component\Stencil\Method;
 use Graphite\Component\Stencil\Stencil;
+
 class CommandLine extends OptionManager
 {
     /**
