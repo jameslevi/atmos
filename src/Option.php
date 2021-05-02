@@ -1,6 +1,6 @@
 <?php
 
-namespace Atmos;
+namespace Graphite\Component\Atmos;
 
 use Closure;
 
@@ -11,7 +11,6 @@ class Option
      * 
      * @var array
      */
-
     private $directives;
 
     /**
@@ -19,7 +18,6 @@ class Option
      * 
      * @var mixed
      */
-
     private $command;
 
     /**
@@ -27,7 +25,6 @@ class Option
      * 
      * @var string
      */
-
     private $description;
 
     /**
@@ -35,7 +32,6 @@ class Option
      * 
      * @var string
      */
-
     private $id;
 
     /**
@@ -47,7 +43,6 @@ class Option
      * @param   string $description
      * @return  void
      */
-
     public function __construct(string $id, array $directives, $command, string $description = null)
     {
         $this->id               = $id;
@@ -61,7 +56,6 @@ class Option
      * 
      * @return  string
      */
-
     public function getId()
     {
         return $this->id;
@@ -72,7 +66,6 @@ class Option
      * 
      * @return  array
      */
-
     public function getDirectives()
     {
         return $this->directives;
@@ -83,7 +76,6 @@ class Option
      * 
      * @return  string
      */
-
     public function getDescription()
     {
         return $this->description;
@@ -95,7 +87,6 @@ class Option
      * @param   string $directive
      * @return  bool
      */
-
     public function hasDirective(string $directive)
     {
         return in_array($directive, $this->directives, true);
@@ -106,9 +97,8 @@ class Option
      * 
      * @param   array $arguments
      * @param   string $method
-     * @return  void
+     * @return  $this
      */
-
     public function execute(array $arguments, string $method = null)
     {
         $command = $this->command;

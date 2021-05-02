@@ -1,11 +1,10 @@
 <?php
 
-namespace Atmos;
+namespace Graphite\Component\Atmos;
 
-use Stencil\Comment;
-use Stencil\Method;
-use Stencil\Stencil;
-
+use Graphite\Component\Stencil\Comment;
+use Graphite\Component\Stencil\Method;
+use Graphite\Component\Stencil\Stencil;
 class CommandLine extends OptionManager
 {
     /**
@@ -13,15 +12,13 @@ class CommandLine extends OptionManager
      * 
      * @var string
      */
-
-    private $version = '1.0.3';
+    private $version = '1.0.4';
 
     /**
      * Store the command line instance here.
      * 
      * @var \Atmos\CommandLine
      */
-
     private static $instance;
 
     /**
@@ -30,7 +27,6 @@ class CommandLine extends OptionManager
      * 
      * @var array
      */
-
     private $arguments;
 
     /**
@@ -38,7 +34,6 @@ class CommandLine extends OptionManager
      * 
      * @var bool
      */
-
     private $executed = false;
 
     /**
@@ -46,7 +41,6 @@ class CommandLine extends OptionManager
      * 
      * @var bool
      */
-
     private $running = false;
 
     /**
@@ -55,7 +49,6 @@ class CommandLine extends OptionManager
      * 
      * @var bool
      */
-
     private $ended = false;
 
     /**
@@ -63,7 +56,6 @@ class CommandLine extends OptionManager
      * 
      * @var array
      */
-
     private $config;
 
     /**
@@ -73,7 +65,6 @@ class CommandLine extends OptionManager
      * @param   array $config
      * @return  void
      */
-
     private function __construct(array $argv, array $config)
     {
         array_shift($argv);
@@ -87,7 +78,6 @@ class CommandLine extends OptionManager
      * 
      * @return  string
      */
-
     public function version()
     {
         return $this->version;
@@ -99,7 +89,6 @@ class CommandLine extends OptionManager
      * @param   string $key
      * @return  mixed
      */
-
     public function config(string $key = null)
     {
         if(!is_null($key) && array_key_exists($key, $this->config))
@@ -117,7 +106,6 @@ class CommandLine extends OptionManager
      * 
      * @return  void
      */
-
     public function exec()
     {
         if(!$this->executed)
@@ -132,38 +120,40 @@ class CommandLine extends OptionManager
      * 
      * @return  void
      */
-
     private function registerDefaultOptions()
     {
         $that = $this;
 
-        $this->register([
+        // Register command for returning current atmos version.
+        $this->register(array(
             'id'            => 'version',
             'description'   => 'Return the current version of ATMOS CLI.',
             'directives'    => ['-v', '--version'],
-        ], function($args) use ($that) {
+        ), function($args) use ($that) {
 
-            Console::log("current release \e[33mv" . $that->version);
+            Console::log("current version \e[33m" . $that->version);
 
         });
 
-        $this->register([
+        // Register command for clearing screen. 
+        $this->register(array(
             'id'            => 'clear',
             'description'   => 'Clear the terminal screen.',
             'directives'    => ['-x', '--clear'],
-        ], function($args) {
+        ), function($args) {
 
             print("\033[2J\033[;H");
 
         });
 
-        $this->register([
+        // Register command for listing available options.
+        $this->register(array(
             'id'            => 'help',
             'description'   => 'Return list of all built-in options.',
             'directives'    => ['-h', '--help'],
-        ], function($args) use ($that) {
+        ), function($args) use ($that) {
 
-            Console::log("ATMOS CLI \e[33mv" . $that->version);
+            Console::log("Atmos \e[33mversion " . $that->version);
             Console::log("Is a simple library for creating command line scripts in PHP.");
             Console::lineBreak();
             Console::warn("Usage:");
@@ -176,15 +166,16 @@ class CommandLine extends OptionManager
 
         });
 
-        $this->register([
+        // Register command for generating new PHP class.
+        $this->register(array(
             'id'            => 'make',
             'description'   => 'Generate a new PHP command class file.',
             'directives'    => ['-m', '--make'],
-        ], function($args) use ($that) {
+        ), function($args) use ($that) {
 
             if(!empty($args))
             {
-                if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $args[0]))
+                if(str_count_special_chars($args[0]) == 0)
                 {
                     $file = ucfirst($args[0]);
                     $path = $that->config('directory') . '/' . $file . '.php';
@@ -192,20 +183,15 @@ class CommandLine extends OptionManager
                     if(!file_exists($path))
                     {
                         $template = new Stencil($file);
-                        $template->setNamespace("Atmos\Console");
-                        $template->use("Atmos\Command");
+                        $template->setNamespace($that->config('namespace'));
+                        $template->use("Graphite\Component\Atmos\Command");
                         $template->extends("Command");
                         $template->setIndention(1);
-
                         $template->addComment(Comment::makeStringVar("Something that will describe your command class."));
-                        $template->lineBreak();
                         $template->addProtectedVariable("description", "No available description...");
                         $template->lineBreak();
                         $template->addComment(Comment::makeMethod("Default method to call if nothing indicated.")->addArrayParam("arguments"));
-                        $template->lineBreak();
                         $template->addMethod(Method::makeProtected("main")->addArrayParam("arguments"));
-                        $template->lineBreak();
-
                         $template->generate($that->config('directory') . '/');
 
                         Console::success("New console file was successfully created.");
@@ -226,14 +212,15 @@ class CommandLine extends OptionManager
             }
         });
 
-        $this->register([
+        // Register command for starting PHP built-in server.
+        $this->register(array(
             'id'            => 'serve',
             'description'   => 'Start the built-in PHP server.',
             'directives'    => ['-s', '--serve'],
-        ], function($args) {
+        ), function($args) {
         $port = 8080;
 
-            if(!empty($args))
+            if(!empty($args) && is_numeric($args[0]))
             {
                 $port = $args[0];
             }
@@ -248,7 +235,6 @@ class CommandLine extends OptionManager
      * 
      * @return  void
      */
-
     private function runtime()
     {
         if($this->executed && !$this->running)
@@ -286,7 +272,6 @@ class CommandLine extends OptionManager
      * @param   array $arguments
      * @return  void
      */
-
     private function loadCustomOptions(array $arguments)
     {
         $path = $this->config('directory');
@@ -299,11 +284,11 @@ class CommandLine extends OptionManager
             {
                 foreach($php as $file)
                 {
-                    require $file;
+                    require_once $file;
 
                     $filename       = explode('.', basename($file))[0];
-                    $namespace      = $this->config('namespace') . $filename;
-                    $keyword        = strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^-])([A-Z][a-z])/'], '$1-$2', $filename));
+                    $namespace      = $this->config('namespace') . '\\' . $filename;
+                    $keyword        = str_camel_to_kebab($filename);
                     $instance       = new $namespace($arguments);
                     $alias          = $instance->getAlias();
                     $aliases        = [$keyword];
@@ -313,11 +298,11 @@ class CommandLine extends OptionManager
                         $aliases[] = $alias;
                     }
                         
-                    $this->register([
+                    $this->register(array(
                         'id'                => $keyword,
                         'description'       => $instance->getDescription(),
                         'directives'        => $aliases,
-                    ], $instance);
+                    ), $instance);
                 }
             }
         }
@@ -333,7 +318,6 @@ class CommandLine extends OptionManager
      * 
      * @return  void
      */
-
     private function terminate()
     {
         $this->running = true;
@@ -345,7 +329,6 @@ class CommandLine extends OptionManager
      * 
      * @return  void
      */
-
     public function end()
     {
         if($this->running && !$this->ended)
@@ -361,9 +344,8 @@ class CommandLine extends OptionManager
      * 
      * @param   array $argv
      * @param   array $config
-     * @return  \Atmos\CommandLine
+     * @return  $this
      */
-
     public static function init(array $argv, array $config)
     {
         if(is_null(static::$instance))
@@ -377,9 +359,8 @@ class CommandLine extends OptionManager
     /**
      * Return the current command line instance.
      * 
-     * @return  \Atmos\CommandLine
+     * @return  $this
      */
-
     public static function context()
     {
         return static::$instance;

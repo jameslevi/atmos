@@ -1,6 +1,6 @@
 <?php
 
-namespace Atmos;
+namespace Graphite\Component\Atmos;
 
 abstract class Command
 {
@@ -9,7 +9,6 @@ abstract class Command
      * 
      * @var array
      */
-
     private $arguments;
 
     /**
@@ -17,7 +16,6 @@ abstract class Command
      * 
      * @var string
      */
-
     protected $alias;
 
     /**
@@ -25,7 +23,6 @@ abstract class Command
      * 
      * @var string
      */
-
     protected $description = "No available description...";
 
     /**
@@ -34,7 +31,6 @@ abstract class Command
      * @param   array $arguments
      * @return  void
      */
-
     public function __construct(array $arguments)
     {
         $this->arguments = $arguments;
@@ -45,7 +41,6 @@ abstract class Command
      * 
      * @return  array
      */
-
     public function getArguments()
     {
         return $this->arguments;
@@ -56,7 +51,6 @@ abstract class Command
      * 
      * @return  string
      */
-
     public function getDescription()
     {
         return $this->description;
@@ -67,7 +61,6 @@ abstract class Command
      * 
      * @return  string
      */
-
     public function getAlias()
     {
         return $this->alias;
@@ -79,7 +72,6 @@ abstract class Command
      * @param   string $method
      * @return  void
      */
-
     public function call(string $method = null)
     {
         $args = $this->arguments;
@@ -111,7 +103,6 @@ abstract class Command
      * @param   array $arguments
      * @return  void
      */
-
     abstract protected function main(array $arguments);
 
     /**
@@ -120,7 +111,6 @@ abstract class Command
      * @param   array $arguments
      * @return  void
      */
-
     protected function onBeforeExecute(array $arguments) {}
 
     /**
@@ -129,7 +119,6 @@ abstract class Command
      * @param   array $arguments
      * @return  void
      */
-
     protected function onAfterExecute(array $arguments) {}
 
     /**
@@ -138,7 +127,6 @@ abstract class Command
      * @param   array $arguments
      * @return  void
      */
-
     protected function onError(array $arguments) {}
 
 }

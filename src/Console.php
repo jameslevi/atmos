@@ -1,6 +1,6 @@
 <?php
 
-namespace Atmos;
+namespace Graphite\Component\Atmos;
 
 class Console
 {
@@ -9,7 +9,6 @@ class Console
      * 
      * @var array
      */
-
     private $types = array(
         'success'  => "\e[32m",
         'warn'     => "\e[33m",
@@ -22,7 +21,6 @@ class Console
      * 
      * @var string
      */
-
     private $type;
 
     /**
@@ -30,7 +28,6 @@ class Console
      * 
      * @var string
      */
-
     private $message;
 
     /**
@@ -38,7 +35,6 @@ class Console
      * 
      * @var bool
      */
-
     private $eol;
 
     /**
@@ -48,7 +44,6 @@ class Console
      * @param   string $type
      * @return  void
      */
-
     public function __construct(string $message, string $type = 'log', bool $eol = true)
     {
         $this->message      = $message;
@@ -61,7 +56,6 @@ class Console
      * 
      * @return  string
      */
-
     public function getType()
     {
         return $this->type;
@@ -72,7 +66,6 @@ class Console
      * 
      * @return  string
      */
-
     public function getMessage()
     {
         return $this->message;
@@ -81,9 +74,8 @@ class Console
     /**
      * Print the message in to the terminal.
      * 
-     * @return  void
+     * @return  $this
      */
-
     public function print()
     {
         $type = $this->type;
@@ -104,6 +96,8 @@ class Console
 
         // Reset the text color in to default value.
         echo "\e[39m"; 
+
+        return $this;
     }
 
     /**
@@ -111,15 +105,11 @@ class Console
      * 
      * @param   string $message
      * @param   bool $eol
-     * @return  \Atmos\Console
+     * @return  $this
      */
-
     public static function log(string $message, bool $eol = true)
     {
-        $instance = new self($message, 'log', $eol);
-        $instance->print();
-
-        return $instance;
+        return (new self($message, 'log', $eol))->print();
     }
 
     /**
@@ -127,15 +117,11 @@ class Console
      * 
      * @param   string $message
      * @param   bool $eol
-     * @return  \Atmos\Console
+     * @return  $this
      */
-
     public static function success(string $message, bool $eol = true)
     {
-        $instance = new self($message, 'success', $eol);
-        $instance->print();
-
-        return $instance;
+        return (new self($message, 'success', $eol))->print();
     }
 
     /**
@@ -143,15 +129,11 @@ class Console
      * 
      * @param   string $message
      * @param   bool $eol
-     * @return  \Atmos\Console
+     * @return  $this
      */
-
     public static function info(string $message, bool $eol = true)
     {
-        $instance = new self($message, 'info', $eol);
-        $instance->print();
-
-        return $instance;
+        return (new self($message, 'info', $eol))->print();
     }
 
     /**
@@ -159,15 +141,11 @@ class Console
      * 
      * @param   string $message
      * @param   bool $eol
-     * @return  \Atmos\Console
+     * @return  $this
      */
-
     public static function warn(string $message, bool $eol = true)
     {
-        $instance = new self($message, 'warn', $eol);
-        $instance->print();
-
-        return $instance;
+        return (new self($message, 'warn', $eol))->print();
     }
 
     /**
@@ -175,29 +153,21 @@ class Console
      * 
      * @param   string $message
      * @param   bool $eol
-     * @return  \Atmos\Console
+     * @return  $this
      */
-
     public static function error(string $message, bool $eol = true)
     {
-        $instance = new self($message, 'error', $eol);
-        $instance->print();
-        
-        return $instance;
+        return (new self($message, 'error', $eol))->print();
     }
 
     /**
      * Create a new line break message.
      * 
-     * @return  \Atmos\Console
+     * @return  $this
      */
-
     public static function lineBreak()
     {
-        $instance = new self("");
-        $instance->print();
-
-        return $instance;
+        return (new self(""))->print();
     }
 
     /**
@@ -206,7 +176,6 @@ class Console
      * @param   mixed $commands
      * @return  void
      */
-
     public static function call($commands)
     {
         if(is_string($commands))

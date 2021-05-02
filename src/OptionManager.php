@@ -1,6 +1,6 @@
 <?php
 
-namespace Atmos;
+namespace Graphite\Component\Atmos;
 
 abstract class OptionManager
 {
@@ -9,7 +9,6 @@ abstract class OptionManager
      * 
      * @var array
      */
-
     private $options = array();
 
     /**
@@ -17,7 +16,6 @@ abstract class OptionManager
      * 
      * @var \Atmos\Option
      */
-
     private $option;
 
     /**
@@ -27,7 +25,6 @@ abstract class OptionManager
      * @param   mixed $command
      * @return  $this
      */
-
     protected function register(array $parameters, $command)
     {
         $id                 = $parameters['id'];
@@ -45,7 +42,6 @@ abstract class OptionManager
      * @param   string $directive
      * @return  bool
      */
-
     protected function matchArguments(string $directive)
     {
         $matched = false;
@@ -70,7 +66,6 @@ abstract class OptionManager
      * 
      * @return  \Atmos\Option
      */
-
     public function getOption()
     {
         return $this->option;
@@ -81,7 +76,6 @@ abstract class OptionManager
      * 
      * @return  void
      */
-
     public function listAllOptions()
     {
         $limit = 36;
