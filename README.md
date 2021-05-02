@@ -82,7 +82,7 @@ protected $alias = "alternative";
 ```
 The command below will execute generate method.
 ```
-php atmos alernative:generate
+php atmos --alternative:generate
 ```
 
 ## Console Messages
@@ -110,10 +110,10 @@ Console::warn("I told you not to go here!");
 ## Call Multiple Commands
 Very useful if you want to call multiple commands in just a single command. The order of execution of each command depends on the order of values in array.
 ```php
-Console::call([
+Console::call(array(
     'composer -h',
     'php atmos -h'
-]);
+));
 ```
 ## Start Built-in PHP Server
 You can now start PHP server using atmos commands. This command will start the server at port 8080.
