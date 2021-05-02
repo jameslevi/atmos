@@ -127,7 +127,7 @@ class CommandLine extends OptionManager
         // Register command for returning current atmos version.
         $this->register(array(
             'id'            => 'version',
-            'description'   => 'Return the current version of ATMOS CLI.',
+            'description'   => 'Return the current version of atmos.',
             'directives'    => ['-v', '--version'],
         ), function($args) use ($that) {
 
@@ -295,7 +295,7 @@ class CommandLine extends OptionManager
 
                     if(!is_null($alias))
                     {
-                        $aliases[] = $alias;
+                        $aliases[] = "--" . $alias;
                     }
                         
                     $this->register(array(
