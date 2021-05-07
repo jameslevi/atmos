@@ -79,6 +79,8 @@ abstract class Command
 
         if(!is_null($method))
         {
+            $method = str_kebab_to_camel($method);
+
             if(method_exists($this, $method))
             {
                 $this->{$method}($args);
