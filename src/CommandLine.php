@@ -227,7 +227,7 @@ class CommandLine extends OptionManager
             }
 
             Console::success("PHP built-in has started at port " . $port . ".");
-            exec("php -S localhost:" . $port);
+            exec("php -S localhost:$port");
         });
     }
 
@@ -292,11 +292,11 @@ class CommandLine extends OptionManager
                     $keyword        = str_camel_to_kebab($filename);
                     $instance       = new $namespace($arguments);
                     $alias          = $instance->getAlias();
-                    $aliases        = [$keyword];
+                    $aliases        = array($keyword);
 
                     if(!is_null($alias))
                     {
-                        $aliases[] = "--" . $alias;
+                        $aliases[] = $alias;
                     }
                         
                     $this->register(array(
